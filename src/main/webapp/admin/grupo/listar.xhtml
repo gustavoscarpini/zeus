@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">    
+    <ui:composition template="//template.xhtml">
+        <ui:define name="body">
+            <h:form id="Formulario">
+                <p:dataTable value="#{grupoControlador.lista}"
+                             emptyMessage="Não foram localizadas grupos"
+                             var="grupo">
+                    <f:facet name="header">
+                        <div align="left">
+                            <h:outputText value="Lista de Grupos"/>
+                        </div>
+                    </f:facet>                                        
+
+                    <p:column headerText="Operações" styleClass="colunaOperacoes">
+                        <p:button icon="ui-icon-lupa"
+                                  styleClass="icone-20 mrig03"
+                                  title="Clique para visualizar os detalhes desta grupo."
+                                  href="../ver/#{grupo.id}/"/>
+
+                        <p:button icon="ui-icon-lapis"
+                                  styleClass="icone-20 mrig03"
+                                  title="Clique para editar esta grupo."
+                                  href="../editar/#{grupo.id}/"/>
+
+                        <p:commandButton icon="ui-icon-minus-circle"
+                                         styleClass="icone-20"
+                                         onclick="if (!confirm('Tem certeza que deseja excluir esta grupo?')){return false;}"
+                                         title="Clique para excluir esta grupo."
+                                         actionListener="#{grupoControlador.excluir(grupo)}"
+                                         update=":Formulario" />                    
+                    </p:column>
+
+                    <p:column headerText="Código"
+                              style="width: 30px; text-align: center;"                              
+                              filterMatchMode="contains"                              
+                              filterBy="#{grupo.id}">
+                        <h:outputText value="#{grupo.id}" />
+                    </p:column>
+                    <p:column headerText="Nome"
+                              style="width: 30px; text-align: center;"                              
+                              filterMatchMode="contains"                              
+                              filterBy="#{grupo.descricao}">
+                        <h:outputText value="#{grupo.descricao}" />
+                    </p:column>
+                  
+
+
+                </p:dataTable>
+
+                <p:button value="Novo Grupo"
+                          href="/admin/grupo/novo/"
+                          icon="ui-icon-plus-circle"
+                          styleClass="mtop10 mrig05"
+                          title="Clique para adicionar uma nova grupo." >
+                </p:button>                
+                <p:button value="Home"
+                          href="/home"
+                          styleClass="mtop10"
+                          icon="ui-icon-house"
+                          title="Clique para voltar para a tela inicial." />                
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/zeus">
+  <Resource auth="Container" 
+            driverClassName="org.postgresql.Driver"
+            maxActive="20" maxIdle="10" maxWait="-1" 
+            name="eproconJNDI" password="senha10" 
+            type="javax.sql.DataSource" 
+            url="jdbc:postgresql://localhost:5432/teste" 
+            username="postgres"/>
+</Context>

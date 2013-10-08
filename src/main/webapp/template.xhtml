@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:an="http://java.sun.com/jsf/composite/components"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <f:view contentType="text/html">        
+        <h:head>
+            <title>Zeus</title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <h:outputStylesheet library="css" name="layout.css"  />
+            <h:outputStylesheet library="css" name="bootstrap.css"  />
+            <h:outputScript library="js" name="locales-calendar-primefaces.js" />
+            <h:outputScript library="js" name="function-eprocon.js" />        
+            <h:outputScript library="js" name="function-jquery.js" />        
+        </h:head>
+
+        <script type="text/javascript">
+            function atribuirStyles(elemento, styles){
+                for(var s in styles) {
+                    elemento.style[s] = styles[s];
+                }
+            }
+            
+            function redimensionarDialog(id) {
+                window.scrollTo(0, 0);    
+                var info = document.getElementById(id);
+                var style = info.style;
+                var wTotal = window.innerWidth;
+                var hTotal = window.innerHeight;
+                var diferencaW = wTotal * 0.2;
+                var diferencaH = hTotal * 0.2;
+                style.left =  diferencaW/2 + 'px';;
+                style.width = ''.concat(wTotal -= diferencaW, 'px');    
+                style.height= ''.concat(hTotal -= diferencaH, 'px'); 
+                style.top = diferencaH/2 + 'px';           
+                atribuirStyles(info, style);
+            }
+         
+        </script>
+
+        <h:body >   
+            <div>                
+                <div id="cabecalho">                  
+                    <an:cabecalho/> 
+                    <div>
+                        <div id="topo-logo">
+                            <p:graphicImage value="/resources/images/general/macbook.png"/>
+                        </div>
+                        <div id="topo-sistema">
+                            <h:panelGrid columns="1" style="margin-left: 10px  ">
+                                <span class="font50pxBranco"><span class="verdeLimao negrito">SEM</span>nome</span><br/>
+                                <span class="branco">Controle Processual</span>
+                                <span class="branco">Tech<span class="verdeLimao negrito">Code</span><span style="font-size: 10px;"> ©</span></span><br/>
+                            </h:panelGrid>
+                        </div>
+                    </div>                       
+                </div>     
+                <div id="conteudo">
+                    <ui:insert name="body"/>                   
+                </div>
+                <p:dialog widgetVar="mensagensDialog"
+                          id="idMesagensDialog"
+                          modal="true"
+                          showHeader="false"                    
+                          dynamic="true"
+                          onShow="redimensionarDialog(this.id);"
+                          position="center"
+                          closable="false"
+                          resizable="false"   
+                          visible="#{sistemaControlador.mensagens.size() > 0}"
+                          draggable="false">
+                    <p:ajax event="close" update="@this" listener="#{sistemaControlador.limparTodasMensagens()}" immediate="true"/>
+                    <h:form id="formulario-tabela-mensagens">
+                        <div class="div-info-tabela" style="overflow-y: auto; overflow-x: hidden; max-height: 400px !important;">
+                            <p:hotkey bind="esc" update="@this" actionListener="#{sistemaControlador.limparTodasMensagens()}" immediate="true"/>
+                            <p:messages/>
+                            <h:dataTable value="#{sistemaControlador.mensagens}"
+                                         style="width: 100%"
+                                         var="fMess">
+                                <h:column>
+                                    <div class="alert alert-#{sistemaControlador.recuperarClasseGravidadeMensagem(fMess.mensagem)}">
+                                        <h:outputText value="#{fMess.mensagem.summary}"
+                                                      escape="false"
+                                                      rendered="#{fMess.mensagem.detail ne fMess.mensagem.summary}"                                              
+                                                      class="negrito"/>
+                                        <h:outputText value=" - "
+                                                      escape="false"
+                                                      rendered="#{fMess.mensagem.detail ne fMess.mensagem.summary}" />
+                                        <h:outputText value="#{fMess.mensagem.detail}"
+                                                      escape="false"/>
+                                    </div>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                        <div style="text-align: center">
+                            <p:commandButton value="Continuar" actionListener="#{sistemaControlador.limparTodasMensagens()}" update=":idMesagensDialog" immediate="true" styleClass="bnt"/>
+                        </div>
+                    </h:form>
+                </p:dialog>
+            </div>
+            <script src="#{facesContext.externalContext.requestContextPath}/resources/js/bootstrap.js"></script>
+        </h:body>
+    </f:view>
+</html>

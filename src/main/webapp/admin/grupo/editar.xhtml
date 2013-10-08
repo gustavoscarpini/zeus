@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:an="http://java.sun.com/jsf/composite/components"
+      xmlns:f="http://java.sun.com/jsf/core">    
+    <ui:composition template="//template.xhtml">
+        <ui:define name="body">
+            <h:form id="Formulario">                
+                <p:panel>
+                    <f:facet name="header">
+                        <h:outputText value="Nova Grupo" rendered="#{grupoControlador.operacao eq 'NOVO'}" />
+                        <h:outputText value="Editar Grupo #{grupoControlador.selecionado}" rendered="#{grupoControlador.operacao eq 'EDITAR'}" />
+                    </f:facet>
+                    <h:panelGrid columns="2">
+
+                        <an:labelObrigatorio para="nome" value="Nome:"/>
+                        <p:inputText id="nome"
+                                     value="#{grupoControlador.selecionado.descricao}"                                     
+                                     title="Digite o nome do grupo."/>
+
+                    </h:panelGrid>
+                    <p:panel>
+                        <h:panelGrid columns="1">
+                            <p:selectOneMenu id="recursoSistema"
+                                             value="#{grupoControlador.recursoSistema}"                                     
+                                             >
+                                <f:selectItems value="#{grupoControlador.selectItensRecursos}"/>
+                            </p:selectOneMenu>
+
+                            <p:commandButton update="@form"  value="Adiocionar" actionListener="#{grupoControlador.adicionaRecurso}" />
+                        </h:panelGrid>
+                        <p:dataTable emptyMessage="Não foram localizadas grupos"
+                                     value="#{grupoControlador.selecionado.grupoRecursos}" var="grupoRecurso" >
+                            <f:facet name="header">
+                                <div align="left">
+                                    <h:outputText value="Lista de Recursos"/>
+                                </div>
+                            </f:facet>
+                            <p:column headerText="Recurso">
+                                <h:outputText value="#{grupoRecurso.recursoSistema.label}" />
+                            </p:column>
+                            <p:column headerText="Operação">
+                                <p:commandButton icon="ui-icon-minus-circle"
+                                                 styleClass="icone-20"
+                                                 onclick="if (!confirm('Tem certeza que deseja excluir esta grupo?')) {
+                                                     return false;
+                                                 }"
+                                                 title="Clique para excluir esta grupo."
+                                                 actionListener="#{grupoControlador.removeRecurso(grupoRecurso)}"
+                                                 update=":Formulario" />        
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </p:panel>
+
+                <p:commandButton value="Salvar"
+                                 icon="ui-icon-tick"
+                                 styleClass="mtop10 mrig05 botaoAzul"
+                                 actionListener="#{grupoControlador.salvar()}"
+                                 update=":Formulario" />
+
+                <p:commandButton value="Cancelar"
+                                 icon="ui-icon-cross"
+                                 styleClass="mtop10 mrig05"                                 
+                                 actionListener="#{grupoControlador.navegarEmbora()}"/>
+
+                <p:button value="Listar Grupos" icon="ui-icon-arrow-180" href='/admin/grupo/listar/'/>
+            </h:form>    
+        </ui:define>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form>                
+            <p:menubar styleClass="barraPrincipal" autoDisplay="false">
+                <p:menuitem icon="ui-icon-home" styleClass="mrig10" actionListener="#{sistemaControlador.navegarPara('/home')}"/>
+                <p:submenu label="Cadastros Gerais"  styleClass="mrig10">                    
+                    <p:menuitem value="Estado"
+                                immediate="true"
+                                actionListener="#{sistemaControlador.navegarPara('/cadastro/estado/novo/')}"
+                                title="Clique para adicionar um novo estado." />
+
+                    <p:menuitem value="Listar Estados"
+                                immediate="true"
+                                actionListener="#{sistemaControlador.navegarPara('/cadastro/estado/listar/')}"
+                                title="Clique para visualizar os estados cadastrados"/>
+                    <p:separator />  
+                    <p:menuitem value="Cidade"
+                                immediate="true"
+                                actionListener="#{sistemaControlador.navegarPara('/cadastro/cidade/novo/')}"
+                                title="Clique para adicionar uma nova cidade." />
+
+                    <p:menuitem value="Listar Cidades"
+                                immediate="true"
+                                actionListener="#{sistemaControlador.navegarPara('/cadastro/cidade/listar/')}"
+                                title="Clique para visualizar as cidades cadastradas"/>
+
+
+                </p:submenu>
+                <p:submenu label="Gerenciamento de Recursos"  styleClass="mrig10">
+                    <p:submenu label="Grupo" styleClass="mrig10">
+                        <p:menuitem value="Incluir"
+                                    immediate="true"
+                                    actionListener="#{sistemaControlador.navegarPara('/admin/grupo/novo/')}"
+                                    title="Clique para adicionar um novo grupo de usuário." />
+
+                        <p:menuitem value="Listar"
+                                    immediate="true"
+                                    actionListener="#{sistemaControlador.navegarPara('/admin/grupo/listar/')}"
+                                    title="Clique para visualizar os grupos cadastrados."/>
+                    </p:submenu>
+                    <p:submenu label="Usuário" styleClass="mrig10">
+                        <p:menuitem value="Incluir"
+                                    immediate="true"
+                                    actionListener="#{sistemaControlador.navegarPara('/admin/usuario/novo/')}"
+                                    title="Clique para adicionar um novo usuário." />
+
+                        <p:menuitem value="Listar"
+                                    immediate="true"
+                                    actionListener="#{sistemaControlador.navegarPara('/admin/usuario/listar/')}"
+                                    title="Clique para visualizar os usuários cadastrados"/>
+                    </p:submenu>
+                </p:submenu>
+                
+                <f:facet name="options">  
+                    <h:panelGrid columns="4">
+                        <h:commandLink >
+                            <span class="ui-button-icon-left ui-icon ui-c ui-icon-comment"/>
+                        </h:commandLink>  
+                        <h:commandLink >
+                            <span class="ui-button-icon-left ui-icon ui-c ui-icon-help"/>
+                        </h:commandLink>  
+                        <h:commandLink >
+                            <span class="ui-button-icon-left ui-icon ui-c ui-icon-gear"/>
+                        </h:commandLink>  
+                        <h:commandLink  actionListener="#{sistemaControlador.navegarPara('/logout')}" >
+                            <span class="ui-button-icon-left ui-icon ui-c ui-icon-power"></span>
+                        </h:commandLink>  
+                    </h:panelGrid>  
+                </f:facet>  
+                <p:commandLink >
+                    <span class="ui-button-icon-left ui-icon ui-c ui-icon-comment"/>
+                </p:commandLink>  
+            </p:menubar>            
+        </h:form>
+    </cc:implementation>
+</html>

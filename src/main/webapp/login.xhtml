@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <f:view contentType="text/html; charset=UTF-8">        
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <title>Zeus</title>
+            <h:outputStylesheet library="css" name="style.css"  />
+            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function() {
+ 
+                    var usuario = 'Usuário';
+                    var senha = 'Senha';
+                    $("#j_password").hide();
+                    $("#mock_password").show();
+
+                    //init, set watermark text and class
+                    $('#j_username').val(usuario).addClass('watermark');
+                    $('#mock_password').val(senha).addClass('watermark');
+ 
+                    //if blur and no value inside, set watermark text and class again.
+                    $('#j_username').blur(function(){
+                        if ($(this).val().length == 0){
+                            $(this).val(usuario).addClass('watermark');                           
+                            $(".user-icon").css("left","0px");          
+                          
+                        }
+                    });                     
+                    //if focus and text is watermrk, set it to empty and remove the watermark class
+                    $('#j_username').focus(function(){
+                        if ($(this).val() == usuario){
+                            $(this).val('').removeClass('watermark');
+                            $(".user-icon").css("left","-48px");
+                        }
+                    });
+                    
+                    $("#mock_password").focus(function() {
+                        $(this).hide();  
+                        $("#j_password").show();
+                        $("#j_password").focus();
+                        $(".pass-icon").css("left","-48px");
+                    });
+                    
+                    $("#j_password").blur(function() {
+                        if($(this).val().length == 0)
+                        {
+                            $(this).hide();  
+                            $("#mock_password").show();
+                            $(".pass-icon").css("left","0px");
+                        }      
+                    });
+                });
+ 
+            </script>
+        </h:head>        
+        <h:body>
+            <div class="heading">
+
+            </div>
+
+            <div id="wrapper">
+
+                <div class="user-icon"></div>
+                <div class="pass-icon"></div>
+
+                <h:form id="login" prependId="false"  styleClass="login-form"
+                        onsubmit="document.getElementById('login').action = '#{facesContext.externalContext.requestContextPath}/j_spring_security_check';">
+                    <div class="content">
+                        <h1>Acesso</h1>    
+                        <h:inputText id="j_username" styleClass="input username oitenta" style="margin-top: 25px"  />                     
+                        <h:inputText id="mock_password" styleClass="input password oitenta" style="margin-top: 25px" />
+                        <h:inputSecret id="j_password" styleClass="input password oitenta" style="margin-top: 25px" />
+                    </div>      
+                    <div class="footer2">
+                        <input type="submit"  onclick="login.submit();" name="submit" value="Entrar" class="button oitenta mtop25" />
+
+                        <div style="text-align: center; margin-top: 10px; margin-bottom: 20px">
+                            <a href="#{facesContext.externalContext.requestContextPath}/faces/recuperasenha.xhtml" class="register"> Esqueci minha senha </a>
+                        </div>
+                        <p:outputPanel rendered="${param.login_error != null}">
+                            <center>
+                                <p class="loginError">Usuário ou senha incorretos</p>
+                            </center>
+                        </p:outputPanel>
+                        <p:outputPanel rendered="${param.esqueci_minha_senha != null}">
+                            <center>
+                                <p class="loginError">Problema seu!</p>
+                            </center>
+                        </p:outputPanel>
+                    </div>
+                </h:form>
+            </div>
+
+            <div class="footer">
+                <br/>
+                <center>
+                    Zeus -
+                    Controle Processual
+                    <br/>
+                    <span style="font-size: 9px">
+                        Copyright © 2013 TechCode. Todos os direitos reservados.
+                    </span>
+                </center>
+            </div>
+
+        </h:body>
+    </f:view>
+</html> 
